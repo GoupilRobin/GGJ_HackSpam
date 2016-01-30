@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
 	public string name = "SOSSIFLARD";
 
 	public float maxSpeed;
+	public Collider2D _damageBox;
 
 	private Animator _animator;
 	private int _grounded = 0;
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour {
 	private Rigidbody2D _body;
 	private bool facingRight;
 	private Transform _groundCheck;
+	private Time	  _timer;
 
 	// Use this for initialization
 	void Awake () 
@@ -32,6 +34,15 @@ public class Player : MonoBehaviour {
 			_grounded = 2;
 		if (Input.GetKeyDown (KeyCode.Space) && _grounded > 0)
 			_jump = true;
+		if (Input.GetKeyDown (KeyCode.Return)) {
+			_damageBox.enabled = true;
+			Invoke("DisableSword", 1);
+		}
+
+	}
+
+	void	DisableSword(){
+		_damageBox.enabled = false;
 	}
 
 	void FixedUpdate()
