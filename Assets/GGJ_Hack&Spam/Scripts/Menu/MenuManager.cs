@@ -1,8 +1,19 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class MenuManager : MonoBehaviour
 {
+	public class LevelPackage
+	{
+		public string Name;
+		public float Weight;
+		public Sprite Thumbnail;
+	}
+
+	public static List<LevelPackage> Levels = new List<LevelPackage>() {
+		new LevelPackage() { Name = "DevScene", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
+	};
+
 	public Menu _currentMenu;
 	
 	// Use this for initialization
@@ -26,7 +37,7 @@ public class MenuManager : MonoBehaviour
 	
 	public void LaunchTutorialLevel()
 	{
-		Application.LoadLevel("room_tutorial");
+		Application.LoadLevel("TrainingRoom");
 	}
 	
 	public void Quit()

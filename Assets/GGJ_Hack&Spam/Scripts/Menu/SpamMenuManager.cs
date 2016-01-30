@@ -15,8 +15,6 @@ public class SpamMenuManager : MenuManager
 	public MenuSelectMaps MapsMenu = null;
 	public MenuSelectMobs MobsMenu = null;
 
-	private SpamType m_SpamType;
-
 	protected void Start()
 	{
 		ShowMenu(_currentMenu);
@@ -36,7 +34,6 @@ public class SpamMenuManager : MenuManager
 	}
 	public void SetupSpamType(SpamType type)
 	{
-		m_SpamType = type;
 		if (type == SpamType.Maps)
 		{
 			ShowMenu(MapsMenu);

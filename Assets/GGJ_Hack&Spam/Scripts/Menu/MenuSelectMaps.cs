@@ -48,6 +48,18 @@ public class MenuSelectMaps : Menu
 	{
 		m_CurrentSelectionTime = SelectionTimer;
 		m_TimerTriggered = false;
+
+		PopulateMap(Map1);
+		PopulateMap(Map2);
+		PopulateMap(Map3);
+	}
+
+	private void PopulateMap(GameObject mapObject)
+	{
+		int levelIndex = Random.Range(0, MainMenuManager.Levels.Count);
+		MainMenuManager.LevelPackage level = MainMenuManager.Levels[levelIndex];
+		mapObject.GetComponentInChildren<Image>().sprite = level.Thumbnail;
+		mapObject.GetComponentInChildren<Text>().text = level.Name;
 	}
 
 	public UnityEvent SelectionTimerOverEvent;
