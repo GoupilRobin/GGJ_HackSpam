@@ -17,22 +17,22 @@ public class Menu : MonoBehaviour {
 	void Start () {
 		_canvas = GetComponent<CanvasGroup> ();
 		_animator = GetComponent<Animator> ();
+		CloseMenu ();
 	}
-	
-	// Update is called once per frame
-	void Update () 
+
+	public void CloseMenu()
 	{
-		if (!_animator.GetCurrentAnimatorStateInfo (0).IsName ("Open")) 
-		{
-			_canvas.alpha = 0;
-			_canvas.blocksRaycasts = _canvas.interactable = false;
-		} 
-		else 
-		{
-			_canvas.alpha = 1;
-			_canvas.blocksRaycasts = _canvas.interactable = true;
-		}
+		_canvas.alpha = 0;
+		_canvas.blocksRaycasts = _canvas.interactable = false;
 	}
+
+	public void OpenMenu()
+	{
+		_canvas.alpha = 1;
+		_canvas.blocksRaycasts = _canvas.interactable = true;
+	}
+
+
 
 
 }

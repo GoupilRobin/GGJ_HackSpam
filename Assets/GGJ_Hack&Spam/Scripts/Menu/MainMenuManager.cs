@@ -19,9 +19,9 @@ public class MainMenuManager : MonoBehaviour {
 
 	public void ShowMenu(Menu menu)
 	{
-		_currentMenu.IsOpen = false;
+		_currentMenu.CloseMenu();
 		_currentMenu = menu;
-		_currentMenu.IsOpen = true;
+		_currentMenu.OpenMenu();
 	}
 
 	public void LaunchGame()

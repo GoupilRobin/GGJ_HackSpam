@@ -38,7 +38,6 @@ public class Player : MonoBehaviour {
 			_damageBox.enabled = true;
 			Invoke("DisableSword", 1);
 		}
-
 	}
 
 	void	DisableSword(){
@@ -91,6 +90,6 @@ public class Player : MonoBehaviour {
 
 	public void Death()
 	{
-
+		Application.LoadLevel ("MainMenu");
 	}
 }
