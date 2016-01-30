@@ -12,9 +12,6 @@ public class IAZombie : IAWalking {
 
 	public void Move()
 	{
-		Debug.Log (currentPos);
-		Debug.Log (_player.transform.position.x - startPos.x > 0 && _player.transform.position.x - startPos.x + max < 0);
-		Debug.Log (reversed);
 		if (currentPos > max && !reversed) 
 			Flip ();
 		else if (currentPos < 0 && reversed)
@@ -28,10 +25,17 @@ public class IAZombie : IAWalking {
 				else if(_player.transform.position.x > transform.position.x && reversed)
 					Flip ();
 			}
+			speed *= 2;
+			if (!reversed)
+				_body.AddForce (new Vector2 (speed, 0f));
+			else
+				_body.AddForce (new Vector2 (-speed, 0f));
+			speed /= 2;
 		}
-		if (!reversed)
-			_body.AddForce (new Vector2 (speed, 0f));
 		else
-			_body.AddForce (new Vector2 (-speed, 0f));
+			if (!reversed)
+				_body.AddForce (new Vector2 (speed, 0f));
+			else
+				_body.AddForce (new Vector2 (-speed, 0f));
 	}
 }

@@ -10,7 +10,7 @@ public abstract class IA : MonoBehaviour
 	protected bool reversed = false;
 
 
-	public void Start()
+	public void Awake()
 	{
 		_player = FindObjectOfType<Player> ();
 		_body = GetComponent <Rigidbody2D>();

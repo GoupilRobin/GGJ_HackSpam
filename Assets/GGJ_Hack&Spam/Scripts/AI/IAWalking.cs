@@ -11,7 +11,6 @@ public abstract class IAWalking : IA {
 
 	public void Start()
 	{
-		base.Start ();
 		startPos = new Vector2 (transform.position.x, transform.position.y);
 		currentPos = 0;
 	}
@@ -23,7 +22,6 @@ public abstract class IAWalking : IA {
 	
 	public void Move()
 	{
-		Debug.Log (currentPos);
 		if (currentPos > max && !reversed) 
 		{
 			Flip ();
