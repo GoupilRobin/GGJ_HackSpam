@@ -5,12 +5,15 @@ using System.IO;
 using System.Net.Sockets;
 using System.Text;
 
+// OAuthToken can be found here: https://twitchapps.com/tmi/
+
 public class TwitchIRC : MonoBehaviour
 {
 	public string Hostname = "irc.twitch.tv";
 	public int Port = 6667;
 	public string Username;
-	public string OAuthPassword;
+	public string StreamName;
+	public string OAuthToken;
 
 	private const int m_ReadBufferLength = 1024;
 	private const string m_EndPacketString = "\r\n";
@@ -65,12 +68,12 @@ public class TwitchIRC : MonoBehaviour
 
 		m_TcpClient.GetStream().BeginRead(m_ReadBuffer, 0, m_ReadBufferLength, new AsyncCallback(HandleData), null);
 
-		if (!string.IsNullOrEmpty(OAuthPassword))
+		if (!string.IsNullOrEmpty(OAuthToken))
 		{
-			SendRawMessage("PASS {0}", OAuthPassword);
+			SendRawMessage("PASS {0}", OAuthToken);
 		}
 		SendRawMessage("NICK {0}", Username.ToLower());
-		SendRawMessage("JOIN #{0}", Username.ToLower());
+		SendRawMessage("JOIN #{0}", StreamName.ToLower());
 	}
 
 	private void HandleData(IAsyncResult result)
@@ -164,14 +167,16 @@ public class TwitchIRC : MonoBehaviour
 		{
 			SendRawMessage("QUIT");
 		}
-		
 
-		m_TcpClient.Client.BeginDisconnect(true, (IAsyncResult result) =>
-        {
-			m_TcpClient.Client.EndDisconnect(result);
-			m_TcpClient.GetStream().Close();
-			m_TcpClient.Close();
-		}, null);
+		if (m_TcpClient != null)
+		{
+			m_TcpClient.Client.BeginDisconnect(true, (IAsyncResult result) =>
+	        {
+				m_TcpClient.Client.EndDisconnect(result);
+				m_TcpClient.GetStream().Close();
+				m_TcpClient.Close();
+			}, null);
+		}
 	}
 
 	public delegate void MessageRecievedHandler(MessageIRC message);
@@ -184,13 +189,17 @@ public class TwitchIRC : MonoBehaviour
 #region Command handlers
 	void HandlePingCommand(MessageIRC message)
 	{
+		Debug.Log("got pinged: " + message.Parameters[0]);
 		SendRawMessage("PONG :{0}", message.Parameters[0]);
 	}
 
 	void HandlePrivateMessage(MessageIRC message)
 	{
+#if DEBUG
 		string log = string.Format("Message from {0}: {1}", message.Parameters[0], message.Parameters[1]);
 		Debug.Log(log);
+#endif
+		OnMessageRecieved(message);
 	}
 #endregion Command handlers
 }
