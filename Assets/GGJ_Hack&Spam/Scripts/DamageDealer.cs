@@ -20,7 +20,7 @@ public class DamageDealer : MonoBehaviour {
 
 
 	void OnTriggerEnter2D(Collider2D coll) {
-		if (hero && coll.gameObject.GetComponent<Monster>()) {
+		if (hero && coll.gameObject.GetComponent<IA>()) {
 			coll.gameObject.SendMessage("OnDamaged", damage);
 			if (_player.transform.position.x < coll.transform.position.x)
 				coll.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(force, force);
