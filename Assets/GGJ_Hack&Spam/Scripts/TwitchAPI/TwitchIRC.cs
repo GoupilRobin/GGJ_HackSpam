@@ -17,28 +17,37 @@ public class TwitchIRC : MonoBehaviour
 
 	private const int m_ReadBufferLength = 1024;
 	private const string m_EndPacketString = "\r\n";
-	private TcpClient m_TcpClient;
-	private Encoding m_Encoding;
-	private byte[] m_ReadBuffer;
-	private string m_PartialMessage;
-	private Queue<string> m_MessageQueue;
-	private bool m_IsWriting;
+	private TcpClient m_TcpClient = null;
+	private Encoding m_Encoding = Encoding.UTF8;
+	private byte[] m_ReadBuffer = null;
+	private string m_PartialMessage = "";
+	private Queue<string> m_MessageQueue = null;
+	private bool m_IsWriting = false;
 	private delegate void CommandHandler(MessageIRC message);
-	private Dictionary<string, CommandHandler> m_CommandHandlers;
+	private Dictionary<string, CommandHandler> m_CommandHandlers = null;
 
 	public void Start()
 	{
-		m_Encoding = Encoding.UTF8;
-		m_ReadBuffer = new byte[m_ReadBufferLength];
-		m_MessageQueue = new Queue<string>();
-		m_IsWriting = false;
-		m_PartialMessage = "";
-		m_CommandHandlers = new Dictionary<string, CommandHandler>();
-		m_CommandHandlers["ping"] = HandlePingCommand;
-		m_CommandHandlers["privmsg"] = HandlePrivateMessage;
+		if (m_ReadBuffer == null)
+		{
+			m_ReadBuffer = new byte[m_ReadBufferLength];
+		}
+		if (m_MessageQueue == null)
+		{
+			m_MessageQueue = new Queue<string>();
+		}
+		if (m_CommandHandlers == null)
+		{
+			m_CommandHandlers = new Dictionary<string, CommandHandler>();
+			m_CommandHandlers["ping"] = HandlePingCommand;
+			m_CommandHandlers["privmsg"] = HandlePrivateMessage;
+		}
 
-		m_TcpClient = new TcpClient();
-		m_TcpClient.BeginConnect(Hostname, Port, new AsyncCallback(ConnectComplete), null);
+		if (m_TcpClient == null)
+		{
+			m_TcpClient = new TcpClient();
+			m_TcpClient.BeginConnect(Hostname, Port, new AsyncCallback(ConnectComplete), null);
+		}
 	}
 
 	public void OnDestroy()
