@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using System.Net.Sockets;
+using System.Net.NetworkInformation;
 using System.Text;
 
-// OAuthToken can be found here: https://twitchapps.com/tmi/
+using Ping = System.Net.NetworkInformation.Ping;
 
 public class TwitchIRC : MonoBehaviour
 {
 	public string Hostname = "irc.twitch.tv";
 	public int Port = 6667;
-	public string Username;
-	public string StreamName;
-	public string OAuthToken;
+	public string Username = "";
+	public string StreamName = "";
+	public string OAuthToken = "";
 
 	private const int m_ReadBufferLength = 1024;
 	private const string m_EndPacketString = "\r\n";
@@ -25,8 +26,9 @@ public class TwitchIRC : MonoBehaviour
 	private bool m_IsWriting = false;
 	private delegate void CommandHandler(MessageIRC message);
 	private Dictionary<string, CommandHandler> m_CommandHandlers = null;
+	private bool m_FirstMessage = true;
 
-	public void Start()
+	private void Start()
 	{
 		if (m_ReadBuffer == null)
 		{
@@ -42,26 +44,42 @@ public class TwitchIRC : MonoBehaviour
 			m_CommandHandlers["ping"] = HandlePingCommand;
 			m_CommandHandlers["privmsg"] = HandlePrivateMessage;
 		}
-
-		if (m_TcpClient == null)
-		{
-			m_TcpClient = new TcpClient();
-			m_TcpClient.BeginConnect(Hostname, Port, new AsyncCallback(ConnectComplete), null);
-		}
 	}
 
-	public void OnDestroy()
+	private void OnDestroy()
 	{
 		Disconnect();
 	}
 
-	public void Update()
+	private void Update()
 	{
 		if (!m_IsWriting && m_MessageQueue.Count > 0)
 		{
 			string message = m_MessageQueue.Dequeue();
 			SendRawMessage(message);
 		}
+	}
+
+	public void Connect()
+	{
+		// We first try to ping twitch.tv to make sure it's reachable
+		string data = "abcdefghijklmopqrstuvwxyz012345";
+		byte[] buffer = Encoding.ASCII.GetBytes(data);
+		int timeout = 5000;
+		Ping ping = new Ping();
+		ping.PingCompleted += HandleConnectionPingCompleted;
+		PingOptions pingOption = new PingOptions(64, true);
+		ping.SendAsync(Hostname, timeout, buffer, pingOption);
+	}
+	
+	private void HandleConnectionPingCompleted(object sender, PingCompletedEventArgs e)
+	{
+		if (m_TcpClient != null)
+		{
+			Disconnect();
+		}
+		m_TcpClient = new TcpClient();
+		m_TcpClient.BeginConnect(Hostname, Port, ConnectComplete, null);
 	}
 
 	private void ConnectComplete(IAsyncResult result)
@@ -73,10 +91,9 @@ public class TwitchIRC : MonoBehaviour
 			Disconnect(false);
 			return;
 		}
-		Debug.Log("Connected to TwitchTV");
 
-		m_TcpClient.GetStream().BeginRead(m_ReadBuffer, 0, m_ReadBufferLength, new AsyncCallback(HandleData), null);
-
+		m_TcpClient.GetStream().BeginRead(m_ReadBuffer, 0, m_ReadBufferLength, HandleData, null);
+		
 		if (!string.IsNullOrEmpty(OAuthToken))
 		{
 			SendRawMessage("PASS {0}", OAuthToken);
@@ -132,6 +149,30 @@ public class TwitchIRC : MonoBehaviour
 					{
 						m_CommandHandlers[commandToLower](ircMessage);
 					}
+					else
+					{
+						if (m_FirstMessage)
+						{
+							if (ircMessage.Parameters[0] == "*" && ircMessage.Parameters[1].Contains("Error"))
+							{
+								Debug.Log(string.Format("Connection error: {0}", ircMessage.Parameters[1]));
+								Disconnect(true);
+								OnConnectError(ircMessage);
+							}
+							else
+							{
+								Debug.Log(string.Format("Connected to TwitchTV as {0}, on {1}'s channel", Username, StreamName));
+								OnConnectSuccess();
+							}
+							m_FirstMessage = false;
+						}
+						else
+						{
+#if DEBUG
+							Debug.Log(string.Format("Unknown message: {0}", ircMessage.RawMessage));
+#endif
+						}
+					}
 				}
 			}
 			else
@@ -179,7 +220,7 @@ public class TwitchIRC : MonoBehaviour
 
 		if (m_TcpClient != null)
 		{
-			m_TcpClient.Client.BeginDisconnect(true, (IAsyncResult result) =>
+			m_TcpClient.Client.BeginDisconnect(false, (IAsyncResult result) =>
 	        {
 				m_TcpClient.Client.EndDisconnect(result);
 				m_TcpClient.GetStream().Close();
@@ -188,17 +229,33 @@ public class TwitchIRC : MonoBehaviour
 		}
 	}
 
+	public delegate void ConnectedHandler();
+	public ConnectedHandler ConnectedEvent;
+	internal void OnConnectSuccess()
+	{
+		if (ConnectedEvent != null) ConnectedEvent();
+	}
+
 	public delegate void MessageRecievedHandler(MessageIRC message);
 	public event MessageRecievedHandler MessageRecievedEvent;
 	internal void OnMessageRecieved(MessageIRC message)
 	{
 		if (MessageRecievedEvent != null) MessageRecievedEvent(message);
 	}
+	
+	public delegate void ConnectErrorHandler(MessageIRC message);
+	public event ConnectErrorHandler ConnectErrorEvent;
+	internal void OnConnectError(MessageIRC message)
+	{
+		if (ConnectErrorEvent != null) ConnectErrorEvent(message);
+	}
 
 #region Command handlers
 	void HandlePingCommand(MessageIRC message)
 	{
+#if DEBUG
 		Debug.Log("got pinged: " + message.Parameters[0]);
+#endif
 		SendRawMessage("PONG :{0}", message.Parameters[0]);
 	}
 
