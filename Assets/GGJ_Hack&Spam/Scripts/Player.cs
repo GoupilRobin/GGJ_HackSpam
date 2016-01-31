@@ -36,6 +36,7 @@ public class Player : MonoBehaviour {
 			_jump = true;
 		if (Input.GetKeyDown (KeyCode.Return)) {
 			_damageBox.enabled = true;
+			_animator.Play("Attack");
 			Invoke("DisableSword", 1);
 		}
 	}
@@ -52,9 +53,9 @@ public class Player : MonoBehaviour {
 			_body.velocity = new Vector2 (Mathf.Sign(_body.velocity.x) * maxSpeed, _body.velocity.y);
 		else
 			_body.AddForce(Vector2.right * speedForce * h);
-		if (h > 0 && !facingRight)
+		if (h < 0 && !facingRight)
 			Flip ();
-		else if (h < 0 && facingRight)
+		else if (h > 0 && facingRight)
 			Flip ();
 		if (_jump) 
 		{
@@ -71,6 +72,7 @@ public class Player : MonoBehaviour {
 			_grounded--;
 			_jump = false;
 		}
+		_animator.SetFloat ("walkSpeed", _body.velocity.x);
 	}
 
 	public void OnDamaged(int damage)
