@@ -8,14 +8,14 @@ public class DamageDealer : MonoBehaviour {
 	public	bool	other;
 	public  float force = 5f;
 	private Player _player;
-	private Monster _monster;
+	private IA _monster;
 
 	// Use this for initialization
 	void Start () {
 		if (hero)
 			_player = transform.parent.GetComponent<Player> ();
 		else
-			_monster = transform.parent.GetComponent<Monster> ();
+			_monster = transform.GetComponent<IA> ();
 	}
 
 
