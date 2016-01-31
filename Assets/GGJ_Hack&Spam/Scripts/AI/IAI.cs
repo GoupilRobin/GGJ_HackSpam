@@ -18,9 +18,11 @@ public abstract class IA : MonoBehaviour
 
 	public void OnDamaged(int damage)
 	{
-			hitpoint -= damage;
-			if (hitpoint <= 0)
-				Destroy (this.gameObject);
+		hitpoint -= damage;
+		if (hitpoint <= 0) {
+			Player.MobKilled += 1;
+			Destroy (this.gameObject);
+		}
 	}
 
 	public void Flip()

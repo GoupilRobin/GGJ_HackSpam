@@ -47,7 +47,7 @@ public class MenuInGame : Menu
 		}
 		if (TextScore != null)
 		{
-			TextScore.text = string.Format(m_ScoreFormat, Player.score);
+			TextScore.text = string.Format(m_ScoreFormat, Player.MobKilled);
 		}
 	}
 }

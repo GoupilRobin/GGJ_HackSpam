@@ -4,6 +4,7 @@ using System.Collections;
 public class Player : MonoBehaviour {
 
 	public static int MapsDone = 0;
+	public static int MobKilled = 0;
 
 	public float jumpForce = 250f;
 	public int life = 100;
