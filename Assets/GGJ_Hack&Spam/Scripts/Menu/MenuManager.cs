@@ -76,6 +76,11 @@ public class MenuManager : MonoBehaviour
 		Application.LoadLevel("MainMenu");
 	}
 	
+	public void LaunchEndGameMenu()
+	{
+		Application.LoadLevel("EndGame");
+	}
+	
 	public void Quit()
 	{
 		Application.Quit();

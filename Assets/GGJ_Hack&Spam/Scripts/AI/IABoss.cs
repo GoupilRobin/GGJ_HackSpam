@@ -65,4 +65,16 @@ public class IABoss : IA {
 			s.GetComponent<IAFireBall>().BossShoot ();
 		}
 	}
+	
+	public new void OnDamaged(int damage)
+	{
+		base.OnDamaged(damage);
+
+		if (hitpoint <= 0)
+		{
+			hitpoint = 0;
+			MenuInGame mig = FindObjectOfType<MenuInGame>();
+			mig.OnGameFinished();
+		}
+	}
 }

@@ -13,11 +13,17 @@ public class MenuInGame : Menu
 	private string m_HPFormat;
 	private string m_MapsFormat;
 	private string m_ScoreFormat;
-
+	
 	public UnityEvent VictoryEvent;
 	internal void OnVictory()
 	{
 		if (VictoryEvent != null) VictoryEvent.Invoke();
+	}
+	
+	public UnityEvent GameFinishedEvent;
+	internal void OnGameFinished()
+	{
+		if (GameFinishedEvent != null) GameFinishedEvent.Invoke();
 	}
 
 	protected void Start()
