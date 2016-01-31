@@ -93,7 +93,7 @@ public class MenuSelectMobs : MenuSelect
 	{
 		MenuManager.MobPackage mobPrefab = MenuManager.Mobs[Random.Range(0, MenuManager.Mobs.Count)];
 		ExposedMobs[index] = mobPrefab;
-		Keys[index] = new MobKey() { Key = WordGenerator.Generate(mobPrefab.KeyLength), RevealedCount = 0 };
+		Keys[index] = new MobKey() { Key = WordGenerator.Generate(1), RevealedCount = 0 };
 		UpdateUIElement(index);
 	}
 

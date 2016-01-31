@@ -15,7 +15,7 @@ public class MenuSelectMaps : MenuSelect
 	public GameObject Map1 = null;
 	public GameObject Map2 = null;
 	public GameObject Map3 = null;
-	public string SelectedMapName { get; private set; }
+	public string SelectedMapName { get; internal set; }
 
 	private List<ExposedMap> m_ShownMap = new List<ExposedMap>();
 
