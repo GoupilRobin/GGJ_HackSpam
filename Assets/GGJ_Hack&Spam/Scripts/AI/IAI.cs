@@ -56,7 +56,6 @@ public abstract class IA : MonoBehaviour
 	{
 		_name.text = name;
 	}
-<<<<<<< HEAD
 	
 	private IEnumerator coroutine_Invincibility()
 	{
@@ -83,14 +82,12 @@ public abstract class IA : MonoBehaviour
 		_c.a = 1.0f;
 		renderer.color = _c;
 		invincible = false;
-=======
+	}
 
-	public void OnCollisionEnter2D (Collision2D collision) {
+	public void OnCollisionEnter2D(Collision2D collision) {
 		
 		if (collision.gameObject.tag == "Monster") {
 			Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>());
 		}
-		
->>>>>>> 46ac16ee3a8558ea311ab6531347cf8c265a4fde
 	}
 }
