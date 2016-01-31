@@ -15,6 +15,7 @@ public class MenuManager : MonoBehaviour
 		public string Name;
 		public GameObject Prefab;
 		public Sprite Thumbnail;
+		public int KeyLength;
 	}
 	
 	public static List<LevelPackage> Levels = new List<LevelPackage>() {
@@ -29,7 +30,14 @@ public class MenuManager : MonoBehaviour
 	};
 	
 	public static List<MobPackage> Mobs = new List<MobPackage>() {
-		new MobPackage() { Name = "Mob", Prefab = Resources.Load("Prefabs/the_prefab", typeof(GameObject)) as GameObject, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
+		new MobPackage() { Name = "Bat", KeyLength = 4, Prefab = Resources.Load("Prefabs/Monsters/Bat", typeof(GameObject)) as GameObject, Thumbnail = Resources.Load("Sprites/Batman", typeof(Sprite)) as Sprite },
+		new MobPackage() { Name = "Gargoyle", KeyLength = 5, Prefab = Resources.Load("Prefabs/Monsters/Gargoyle", typeof(GameObject)) as GameObject, Thumbnail = Resources.Load("Sprites/Gargoyle3", typeof(Sprite)) as Sprite },
+		new MobPackage() { Name = "SlimeBlue", KeyLength = 3, Prefab = Resources.Load("Prefabs/Monsters/SlimeBlue", typeof(GameObject)) as GameObject, Thumbnail = Resources.Load("Sprites/SlimeBlue", typeof(Sprite)) as Sprite },
+		new MobPackage() { Name = "SlimeGreen", KeyLength = 3, Prefab = Resources.Load("Prefabs/Monsters/SlimeGreen", typeof(GameObject)) as GameObject, Thumbnail = Resources.Load("Sprites/SlimeGreen", typeof(Sprite)) as Sprite },
+		new MobPackage() { Name = "SlimeRed", KeyLength = 3, Prefab = Resources.Load("Prefabs/Monsters/SlimeRed", typeof(GameObject)) as GameObject, Thumbnail = Resources.Load("Sprites/SlimeRed", typeof(Sprite)) as Sprite },
+		new MobPackage() { Name = "Wizard", KeyLength = 4, Prefab = Resources.Load("Prefabs/Monsters/Wizard", typeof(GameObject)) as GameObject, Thumbnail = Resources.Load("Sprites/Wizard", typeof(Sprite)) as Sprite },
+		new MobPackage() { Name = "ZombieFemale", KeyLength = 4, Prefab = Resources.Load("Prefabs/Monsters/ZombieFemale", typeof(GameObject)) as GameObject, Thumbnail = Resources.Load("Sprites/Zombie2", typeof(Sprite)) as Sprite },
+		new MobPackage() { Name = "ZombieMale", KeyLength = 4, Prefab = Resources.Load("Prefabs/Monsters/ZombieMale", typeof(GameObject)) as GameObject, Thumbnail = Resources.Load("Sprites/Zombie1", typeof(Sprite)) as Sprite },
 	};
 
 	public Menu _currentMenu;

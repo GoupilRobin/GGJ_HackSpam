@@ -3,24 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-public class WordComparator
+public static class WordComparator
 {
-	public List<string> Comparator(string chat, List<string> list)
+	public static int Comparator(string chat, string key)
 	{
-		List<string> listRes = new List<string>();
-		StringBuilder res = new StringBuilder();
-		char[] ar = chat.ToCharArray();
-
-		foreach (string elem in list) {
-			res.Remove(0, res.Length);
-			for (int i = 0; i < ar.Length; ++i) {
-				if (chat.Length > i + 1 && ar[i].Equals(elem[i]))
-					res.Append(ar[i]);
-				else
-					break;
+		int i = 0;
+		for (; i < chat.Length && i < key.Length; i++)
+		{
+			if (chat[i] != key[i])
+			{
+				return i;
 			}
-			listRes.Add(res.ToString());
 		}
-		return (listRes);
+
+		return i;
 	}
 }

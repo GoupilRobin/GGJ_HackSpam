@@ -3,7 +3,7 @@ using System.Collections;
 
 public class WordGenerator
 {
-	public string Generator(int numLetter)
+	public static string Generate(int numLetter)
 	{
 		string res = "";
 		string alpha = "abcdefghijklmnopqrstuvwxyz";
@@ -12,7 +12,6 @@ public class WordGenerator
 			rand = (int)(Random.value * 25);
 			res += alpha[rand];
 		}
-		Debug.Log (res);
 		return (res);
 	}
 }
