@@ -8,5 +8,4 @@ public class IABat : IAFlying {
 		base.Start();
 		InvokeRepeating ("Move", 0, 0.5f);
 	}
-
 }
