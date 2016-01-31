@@ -16,6 +16,11 @@ public class VolumeSound : MonoBehaviour
 			if (t.name == "Volume")
 				_text = t;
 		}
+		if (PlayerPrefs.HasKey("Volume"))
+		{
+			_slider.value = PlayerPrefs.GetFloat("Volume");
+			AudioListener.volume = _slider.value;
+		}
 		_text.text = _slider.value.ToString();
 	}
 
@@ -23,5 +28,6 @@ public class VolumeSound : MonoBehaviour
 	{
 		_text.text = _slider.value.ToString();
 		AudioListener.volume = _slider.value / 100.0f;
+		PlayerPrefs.SetFloat("Volume", AudioListener.volume);
 	}
 }
