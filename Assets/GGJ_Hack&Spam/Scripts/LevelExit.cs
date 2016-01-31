@@ -14,8 +14,10 @@ public class LevelExit : MonoBehaviour
 			if (m_CurrentFrame == 0)
 			{
 				IA[] ais = FindObjectsOfType<IA>();
-				if (ais.Length <= 0)
-				{
+				foreach(IA ai in ais){
+					if (!ai.gameObject.isStatic)
+						return;
+				}
 					MenuInGame inGameMenu = FindObjectOfType<MenuInGame>();
 					if (inGameMenu != null)
 					{
@@ -23,7 +25,6 @@ public class LevelExit : MonoBehaviour
 						m_Done = true;
 						Player.MapsDone++;
 					}
-				}
 			}
 			else
 			{
