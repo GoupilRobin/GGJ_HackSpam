@@ -16,7 +16,8 @@ public class IAZombie : IAWalking {
 			Flip ();
 		else if (currentPos < 0 && reversed)
 			Flip ();
-		if (_player.transform.position.y - transform.position.y < 1 && _player.transform.position.y - transform.position.y > -1) 
+		if (_player.transform.position.y - transform.position.y < 1 && 
+		    _player.transform.position.y - transform.position.y > -1) 
 		{
 			if (_player.transform.position.x > startPos.x && _player.transform.position.x < startPos.x + max)
 			{
@@ -27,15 +28,15 @@ public class IAZombie : IAWalking {
 			}
 			speed *= 2;
 			if (!reversed)
-				_body.AddForce (new Vector2 (speed, 0f));
+				_body.velocity = new Vector2 (speed, 0f);
 			else
-				_body.AddForce (new Vector2 (-speed, 0f));
+				_body.velocity = new Vector2 (-speed, 0f);
 			speed /= 2;
 		}
 		else
 			if (!reversed)
-				_body.AddForce (new Vector2 (speed, 0f));
+				_body.velocity = new Vector2 (speed, 0f);
 			else
-				_body.AddForce (new Vector2 (-speed, 0f));
+				_body.velocity = new Vector2 (-speed, 0f);
 	}
 }

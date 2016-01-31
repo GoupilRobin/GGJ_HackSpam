@@ -29,8 +29,8 @@ public abstract class IAWalking : IA {
 		else if (currentPos < 0 && reversed)
 			Flip ();
 		if (!reversed)
-			_body.AddForce (new Vector2 (speed, 0f));
+			_body.velocity = new Vector2 (speed, 0f);
 		else
-			_body.AddForce (new Vector2 (-speed, 0f));
+			_body.velocity = new Vector2 (-speed, 0f);
 	}
 }
