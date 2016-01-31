@@ -10,8 +10,19 @@ public class MenuManager : MonoBehaviour
 		public Sprite Thumbnail;
 	}
 
+	public class MobPackage
+	{
+		public string Name;
+		public GameObject Prefab;
+		public Sprite Thumbnail;
+	}
+	
 	public static List<LevelPackage> Levels = new List<LevelPackage>() {
 		new LevelPackage() { Name = "DevScene", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
+	};
+	
+	public static List<MobPackage> Mobs = new List<MobPackage>() {
+		new MobPackage() { Name = "Mob", Prefab = Resources.Load("Prefabs/the_prefab", typeof(GameObject)) as GameObject, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
 	};
 
 	public Menu _currentMenu;
