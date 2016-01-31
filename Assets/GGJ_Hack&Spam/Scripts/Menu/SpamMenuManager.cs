@@ -15,7 +15,7 @@ public class SpamMenuManager : MenuManager
 	public MenuSelectMaps MapsMenu = null;
 	public MenuSelectMobs MobsMenu = null;
 
-	protected void Start()
+	protected new void Start()
 	{
 		ShowMenu(_currentMenu);
 		MapsMenu.SelectionTimerOverEvent.AddListener(OnMapsSelectionFinished);

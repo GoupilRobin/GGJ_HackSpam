@@ -23,6 +23,7 @@ public class MenuSelectMobs : Menu
 	protected void Start()
 	{
 		m_TimerTextFormat = TimerText.text;
+		m_TimerTriggered = true;
 		
 		MenuOpenedEvent.AddListener(StartTimer);
 	}

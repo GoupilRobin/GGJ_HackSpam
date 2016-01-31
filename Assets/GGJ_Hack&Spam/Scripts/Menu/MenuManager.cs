@@ -35,7 +35,7 @@ public class MenuManager : MonoBehaviour
 	public Menu _currentMenu;
 	
 	// Use this for initialization
-	void Start()
+	protected void Start()
 	{
 		ShowMenu(_currentMenu);
 	}
@@ -56,6 +56,11 @@ public class MenuManager : MonoBehaviour
 	public void LaunchTutorialLevel()
 	{
 		Application.LoadLevel("TrainingRoom");
+	}
+	
+	public void LaunchMainMenu()
+	{
+		Application.LoadLevel("MainMenu");
 	}
 	
 	public void Quit()
