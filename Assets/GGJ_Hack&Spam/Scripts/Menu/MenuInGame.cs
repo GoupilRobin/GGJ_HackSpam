@@ -13,11 +13,13 @@ public class MenuInGame : Menu
 	private string m_HPFormat;
 	private string m_MapsFormat;
 	private string m_ScoreFormat;
-	
+
+	public bool IsVictorious { get; private set; }
 	public UnityEvent VictoryEvent;
 	internal void OnVictory()
 	{
 		if (VictoryEvent != null) VictoryEvent.Invoke();
+		IsVictorious = true;
 	}
 	
 	public UnityEvent GameFinishedEvent;

@@ -8,6 +8,7 @@ public class LevelChosenBy : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		_name = GetComponent<TextMesh>();
+		SetName(MenuSelectMaps.Instigator);
 	}
 
 	public void SetName(string name)

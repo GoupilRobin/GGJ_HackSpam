@@ -16,6 +16,7 @@ public class MenuSelectMaps : MenuSelect
 	public GameObject Map2 = null;
 	public GameObject Map3 = null;
 	public string SelectedMapName { get; internal set; }
+	public static string Instigator;
 
 	private List<ExposedMap> m_ShownMap = new List<ExposedMap>();
 
@@ -24,6 +25,7 @@ public class MenuSelectMaps : MenuSelect
 		base.StartTimer();
 
 		SelectedMapName = "";
+		Instigator = "";
 		
 		m_ShownMap.Clear();
 		PopulateMap(Map1);
@@ -41,6 +43,7 @@ public class MenuSelectMaps : MenuSelect
 			if (param.Substring(0, param.Length - 2) == m_ShownMap[i].Name)
 			{
 				SelectedMapName = m_ShownMap[i].Name;
+				Instigator = message.Parameters[0].Substring(1);
 				break;
 			}
 		}
@@ -54,6 +57,7 @@ public class MenuSelectMaps : MenuSelect
 		{
 			int index = Random.Range(0, m_ShownMap.Count);
 			SelectedMapName = m_ShownMap[index].Name;
+			Instigator = "Pure Randomness";
 		}
 	}
 
@@ -63,6 +67,6 @@ public class MenuSelectMaps : MenuSelect
 		MainMenuManager.LevelPackage level = MainMenuManager.Levels[levelIndex];
 		mapObject.GetComponentInChildren<Image>().sprite = level.Thumbnail;
 		mapObject.GetComponentInChildren<Text>().text = level.Name;
-		m_ShownMap.Add(new ExposedMap() { Name=level.Name, GameObject=mapObject });
+		m_ShownMap.Add(new ExposedMap() { Name = level.Name, GameObject = mapObject });
 	}
 }

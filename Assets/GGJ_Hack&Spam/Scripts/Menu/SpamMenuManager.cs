@@ -17,17 +17,13 @@ public class SpamMenuManager : MenuManager
 	public MenuSelectMobs MobsMenu = null;
 	public MenuSelectBoss BossMenu = null;
 
+	private bool m_SelectionOver;
+
 	protected new void Start()
 	{
-		ShowMenu(_currentMenu);
-		if (Player.MapsDone > 9)
-		{
-			SetupSpamType(SpamType.Boss);
-		}
-		else
-		{
-			SetupSpamType(SpamType.Maps);
-		}
+		m_SelectionOver = false;
+		ShowMenu(null);
+
 		MapsMenu.SelectionTimerOverEvent.AddListener(OnMapsSelectionFinished);
 		MobsMenu.SelectionTimerOverEvent.AddListener(OnMobsSelectionFinished);
 		BossMenu.SelectionTimerOverEvent.AddListener(OnBossSelectionFinished);
@@ -38,6 +34,18 @@ public class SpamMenuManager : MenuManager
 		MapsMenu.SelectionTimerOverEvent.RemoveListener(OnMapsSelectionFinished);
 		MobsMenu.SelectionTimerOverEvent.RemoveListener(OnMobsSelectionFinished);
 		BossMenu.SelectionTimerOverEvent.RemoveListener(OnBossSelectionFinished);
+	}
+
+	public void StartSelection()
+	{
+		if (Player.MapsDone > 9)
+		{
+			SetupSpamType(SpamType.Boss);
+		}
+		else
+		{
+			SetupSpamType(SpamType.Maps);
+		}
 	}
 
 	public void SetupSpamType(string typeStr)
@@ -82,6 +90,9 @@ public class SpamMenuManager : MenuManager
 	public UnityEvent SelectionFinishedEvent;
 	internal void OnSelectionFinished()
 	{
-		if (SelectionFinishedEvent != null) SelectionFinishedEvent.Invoke();
+		if (FindObjectOfType<MenuInGame>().IsVictorious)
+		{
+			if (SelectionFinishedEvent != null) SelectionFinishedEvent.Invoke();
+		}
 	}
 }

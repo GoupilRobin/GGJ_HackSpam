@@ -4,7 +4,13 @@ using System.Collections.Generic;
 
 public class MasterSpawner : MonoBehaviour
 {
-	public static List<IA> monsters = null;
+	public class IAPacket
+	{
+		public IA IA;
+		public string Name;
+	}
+
+	public static List<IAPacket> monsters = null;
 	private	MobSpawner[] spawners;
 
 	void Awake()
@@ -20,7 +26,7 @@ public class MasterSpawner : MonoBehaviour
 	{
 		if (monsters.Count > 0 && monsters != null)
 		{
-			IA current = monsters[0];
+			IAPacket current = monsters[0];
 			monsters.RemoveAt (0);
 			int rand = Random.Range (0, spawners.GetLength (0));
 			int i = 0;

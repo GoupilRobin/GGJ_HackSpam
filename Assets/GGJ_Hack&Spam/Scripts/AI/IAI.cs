@@ -54,6 +54,10 @@ public abstract class IA : MonoBehaviour
 
 	public void SetName(string name)
 	{
+		if(_name == null)
+		{
+			_name = GetComponentInChildren<TextMesh>();
+		}
 		_name.text = name;
 	}
 	

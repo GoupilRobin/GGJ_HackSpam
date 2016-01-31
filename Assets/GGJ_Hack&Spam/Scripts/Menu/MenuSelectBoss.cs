@@ -78,7 +78,7 @@ public class MenuSelectBoss : MenuSelect
 	{
 		base.HandleSelectionTimerOver();
 		
-		List<IA> aiList = new List<IA>();
+		List<MasterSpawner.IAPacket> aiList = new List<MasterSpawner.IAPacket>();
 		IABoss bossAi = ExposedBoss.Prefab.GetComponent<IABoss>();
 		if (m_UpgradeLevel >= 0) bossAi.doubleHP = true;
 		if (m_UpgradeLevel >= 1) bossAi.moreFireBalls = true;
@@ -86,9 +86,9 @@ public class MenuSelectBoss : MenuSelect
 		if (m_UpgradeLevel >= 3)
 		{
 			int rndIdx = Random.Range(0, MenuManager.Mobs.Count);
-			aiList.Add(MenuManager.Mobs[rndIdx].Prefab.GetComponent<IABoss>());
+			aiList.Add(new MasterSpawner.IAPacket() { IA = MenuManager.Mobs[rndIdx].Prefab.GetComponent<IABoss>(), Name = "The viewers" });
 		}
-		aiList.Add(bossAi);
+		aiList.Add(new MasterSpawner.IAPacket() { IA = bossAi, Name = "The viewers" });
 		MasterSpawner.monsters = aiList;
 		MenuSelectMaps msm = FindObjectOfType<MenuSelectMaps>();
 		msm.SelectedMapName = "BossRoom";

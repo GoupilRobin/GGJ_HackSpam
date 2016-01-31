@@ -20,6 +20,7 @@ public class MenuSelectMobs : MenuSelect
 	private Queue<int> m_PendingUIUpdates = new Queue<int>();
 	private Queue<int> m_PendingReplaces = new Queue<int>();
 	private List<MenuManager.MobPackage> m_BufferedMobs = new List<MenuManager.MobPackage>();
+	private List<string> m_BufferedMobsName = new List<string>();
 
 	public override void StartTimer()
 	{
@@ -28,6 +29,7 @@ public class MenuSelectMobs : MenuSelect
 		ExposedMobs = new MenuManager.MobPackage[MobsUI.Count];
 		Keys = new MobKey[MobsUI.Count];
 		m_BufferedMobs.Clear();
+		m_BufferedMobsName.Clear();
 		for (int i = 0; i < MobsUI.Count; i++)
 		{
 			PickRandomMob(i);
@@ -71,6 +73,10 @@ public class MenuSelectMobs : MenuSelect
 					m_BufferedMobs.Add(ExposedMobs[i]);
 					m_BufferedMobs.Add(ExposedMobs[i]);
 					m_BufferedMobs.Add(ExposedMobs[i]);
+					m_BufferedMobsName.Add(message.Parameters[0]);
+					m_BufferedMobsName.Add(message.Parameters[0]);
+					m_BufferedMobsName.Add(message.Parameters[0]);
+					m_BufferedMobsName.Add(message.Parameters[0]);
 					m_PendingReplaces.Enqueue(i);
 				}
 			}
@@ -81,10 +87,12 @@ public class MenuSelectMobs : MenuSelect
 	{
 		base.HandleSelectionTimerOver();
 
-		List<IA> aiList = new List<IA>();
+		List<MasterSpawner.IAPacket> aiList = new List<MasterSpawner.IAPacket>();
 		for (int i = 0; i < m_BufferedMobs.Count; i++)
 		{
-			aiList.Add(m_BufferedMobs[i].Prefab.GetComponent<IA>());
+			IA ai = m_BufferedMobs[i].Prefab.GetComponent<IA>();
+			string name = m_BufferedMobsName[i];
+			aiList.Add(new MasterSpawner.IAPacket() { IA = ai, Name = name });
 		}
 		MasterSpawner.monsters = aiList;
 	}
@@ -93,7 +101,7 @@ public class MenuSelectMobs : MenuSelect
 	{
 		MenuManager.MobPackage mobPrefab = MenuManager.Mobs[Random.Range(0, MenuManager.Mobs.Count)];
 		ExposedMobs[index] = mobPrefab;
-		Keys[index] = new MobKey() { Key = WordGenerator.Generate(1), RevealedCount = 0 };
+		Keys[index] = new MobKey() { Key = WordGenerator.Generate(mobPrefab.KeyLength), RevealedCount = 0 };
 		UpdateUIElement(index);
 	}
 

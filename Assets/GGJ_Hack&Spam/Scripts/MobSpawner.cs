@@ -10,8 +10,9 @@ public class MobSpawner : MonoBehaviour {
 		_audio = GetComponent<AudioSource> ();
 	}
 
-	void InstantiateIA(IA toSpawn){
+	void InstantiateIA(MasterSpawner.IAPacket toSpawn) {
 		_audio.PlayOneShot (onCreate);
-		Instantiate (toSpawn, this.transform.position, this.transform.rotation);
+		GameObject obj = Instantiate (toSpawn.IA, this.transform.position, this.transform.rotation) as GameObject;
+		//obj.GetComponent<IA>().SetName(toSpawn.Name);
 	}
 }
