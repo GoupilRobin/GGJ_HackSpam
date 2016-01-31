@@ -14,8 +14,11 @@ public class DamageDealer : MonoBehaviour {
 	void Start () {
 		if (hero)
 			_player = transform.parent.GetComponent<Player> ();
-		else
+		else {
 			_monster = transform.GetComponent<IA> ();
+			if (_monster == null)
+				_monster = transform.parent.GetComponent<IA>();
+		}
 	}
 
 
