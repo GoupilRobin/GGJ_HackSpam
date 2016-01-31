@@ -12,6 +12,12 @@ public class IAFireBall : IA {
 			_body.AddRelativeForce (new Vector2 (-5, 0), ForceMode2D.Impulse);
 	}
 
+	void FixedUpdate()
+	{
+		if( Mathf.Abs(_body.velocity.x) < 0.3f && Mathf.Abs(_body.velocity.y) < 0.3f)
+		   Destroy(this.gameObject);
+	}
+
 	public void GoForIt()
 	{
 		_body.AddRelativeForce (new Vector2 (0, -5), ForceMode2D.Impulse);
