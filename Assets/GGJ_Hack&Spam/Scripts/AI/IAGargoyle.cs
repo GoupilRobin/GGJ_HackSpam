@@ -3,6 +3,8 @@ using System.Collections;
 
 public class IAGargoyle : IAFlying {
 	
+	public	AudioClip	onAttack;
+
 	protected Transform spawn;
 	
 	public void Start () 
@@ -23,6 +25,7 @@ public class IAGargoyle : IAFlying {
 	
 	public void Attack()
 	{
+		_audio.PlayOneShot (onAttack);
 		GameObject g = Resources.Load ("Prefabs/FireBall", typeof(GameObject)) as GameObject;
 		GameObject s = Instantiate(g, spawn.position, spawn.rotation) as GameObject;
 		s.GetComponent<IAFireBall> ().GoForIt ();

@@ -6,6 +6,11 @@ public class Player : MonoBehaviour {
 	public static int MapsDone = 0;
 	public static int MobKilled = 0;
 
+	public AudioClip	onJump;
+	public AudioClip	onLand;
+	public AudioClip	onHit;
+	public AudioClip	onDamaged;
+	public AudioClip	onDeath;
 	public float jumpForce = 250f;
 	public int life = 100;
 	public int score { get; private set; }
@@ -14,8 +19,10 @@ public class Player : MonoBehaviour {
 	public float maxSpeed;
 	public Collider2D _damageBox;
 
+	private AudioSource _audio;
 	private Animator _animator;
 	private int _grounded = 0;
+	private bool _fall = false;
 	private bool _jump;
 	private Rigidbody2D _body;
 	private bool facingRight;
@@ -26,6 +33,7 @@ public class Player : MonoBehaviour {
 	// Use this for initialization
 	void Awake () 
 	{
+		_audio = GetComponent<AudioSource> ();
 		_animator = GetComponent<Animator> ();
 		_body = GetComponent<Rigidbody2D> ();
 		_groundCheckStart = transform.Find("groundCheckStart");
@@ -35,12 +43,22 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if (Physics2D.Linecast(_groundCheckStart.position, _groundCheck.position, 1 << LayerMask.NameToLayer("Ground")))
+		if (Physics2D.Linecast (_groundCheckStart.position, _groundCheck.position, 1 << LayerMask.NameToLayer ("Ground"))) {
 			_grounded = 1;
-		if (Input.GetKeyDown (KeyCode.Space) && _grounded > 0)
+			if (_fall)
+			{
+				_fall = false;
+				//_audio.PlayOneShot(onLand);
+			}
+		}
+		if (Input.GetKeyDown (KeyCode.Space) && _grounded > 0) {
 			_jump = true;
+			_fall = true;
+			_audio.PlayOneShot(onJump);
+		}
 		if (Input.GetKeyDown (KeyCode.Return)) {
 			_damageBox.enabled = true;
+			_audio.PlayOneShot(onHit);
 			_animator.Play("Attack");
 			Invoke("DisableSword", 1);
 		}
@@ -77,6 +95,7 @@ public class Player : MonoBehaviour {
 
 	public void OnDamaged(int damage)
 	{
+		_audio.PlayOneShot (onDamaged);
 		life -= damage;
 		if (life < 1)
 			Death ();
@@ -92,6 +111,7 @@ public class Player : MonoBehaviour {
 
 	public void Death()
 	{
+		_audio.PlayOneShot (onDeath);
 		Application.LoadLevel ("MainMenu");
 	}
 }

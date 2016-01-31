@@ -3,6 +3,8 @@ using System.Collections;
 
 public class IAMage : IAWalking {
 
+	public	AudioClip onAttack;
+
 	private Transform spawn;
 	// Use this for initialization
 	void Start () {
@@ -13,6 +15,7 @@ public class IAMage : IAWalking {
 	
 	void Attack()
 	{
+		_audio.PlayOneShot (onAttack);
 		if (_player.transform.position.x < transform.position.x && !reversed) {
 			Flip ();
 		} else if (_player.transform.position.x > transform.position.x && reversed) {

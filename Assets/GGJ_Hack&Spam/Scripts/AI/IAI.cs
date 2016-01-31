@@ -3,15 +3,19 @@ using System.Collections;
 
 public abstract class IA : MonoBehaviour 
 {
+	public	AudioClip onDamaged;
+	public	AudioClip onDeath;
+
 	protected Player _player;
 	protected Rigidbody2D _body;
 	public float distance;
 	public int hitpoint;
 	protected bool reversed = false;
-
+	protected	AudioSource _audio;
 
 	public void Awake()
 	{
+		_audio = GetComponent<AudioSource> ();
 		_player = FindObjectOfType<Player> ();
 		_body = GetComponent <Rigidbody2D>();
 	}
@@ -19,7 +23,9 @@ public abstract class IA : MonoBehaviour
 	public void OnDamaged(int damage)
 	{
 		hitpoint -= damage;
+		_audio.PlayOneShot (onDamaged);
 		if (hitpoint <= 0) {
+			AudioSource.PlayClipAtPoint(onDeath, this.transform.position);
 			Player.MobKilled += 1;
 			Destroy (this.gameObject);
 		}
