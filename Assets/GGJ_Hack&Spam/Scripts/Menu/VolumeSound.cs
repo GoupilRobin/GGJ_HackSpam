@@ -2,25 +2,26 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class VolumeSound : MonoBehaviour {
-
+public class VolumeSound : MonoBehaviour
+{
 	private Text _text;
 	private Slider _slider;
 
 	// Use this for initialization
-	void Start () {
-		_slider = GetComponent<Slider> ();
+	void Start()
+	{
+		_slider = GetComponent<Slider>();
 		foreach (Text  t in transform.parent.GetComponentsInChildren<Text> ())
 		{
 			if (t.name == "Volume")
 				_text = t;
 		}
-		_text.text = _slider.value.ToString ();
+		_text.text = _slider.value.ToString();
 	}
 
 	public void SetValue()
 	{
-		_text.text = _slider.value.ToString ();
-		//VolumeSound
+		_text.text = _slider.value.ToString();
+		AudioListener.volume = _slider.value;
 	}
 }
