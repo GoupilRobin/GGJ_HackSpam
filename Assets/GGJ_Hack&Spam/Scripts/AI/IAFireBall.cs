@@ -16,4 +16,9 @@ public class IAFireBall : IA {
 	{
 		_body.AddRelativeForce (new Vector2 (0, -5), ForceMode2D.Impulse);
 	}
+
+	public void BossShoot()
+	{
+		_body.AddRelativeForce (new Vector2 (5, 0), ForceMode2D.Impulse);
+	}
 }
