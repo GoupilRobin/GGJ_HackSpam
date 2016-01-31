@@ -111,7 +111,7 @@ public class Player : MonoBehaviour {
 
 	public void Death()
 	{
-		_audio.PlayOneShot (onDeath);
+		AudioSource.PlayClipAtPoint (onDeath, this.transform.position);
 		Application.LoadLevel ("MainMenu");
 	}
 }
