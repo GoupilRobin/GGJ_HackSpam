@@ -11,12 +11,17 @@ public class IABoss : IA {
 	public bool doubleSpeed = false;
 	public bool doubleHP = false;
 	public bool spawners = false;
+	public Sprite hitSprite = null;
 	private List<Transform> _list;
+	private SpriteRenderer _renderer;
+	private Sprite _regularSprite;
 
 	void Start()
 	{
 		_spawner = transform.Find("spawners");
 		_list = new List<Transform> ();
+		_renderer = GetComponent<SpriteRenderer>();
+		_regularSprite = _renderer.sprite;
 		Init ();
 	}
 
@@ -26,6 +31,21 @@ public class IABoss : IA {
 			_spawner.Rotate (new Vector3 (0, 0, rotationSpeed * Time.deltaTime));
 		else
 			_spawner.Rotate (new Vector3 (0, 0, rotationSpeed * 2 * Time.deltaTime));
+
+		if (invincible)
+		{
+			if (_renderer.sprite != hitSprite)
+			{
+				_renderer.sprite = hitSprite;
+			}
+		}
+		else
+		{
+			if (_renderer.sprite != _regularSprite)
+			{
+				_renderer.sprite = _regularSprite;
+			}
+		}
 	}
 
 	void Init()

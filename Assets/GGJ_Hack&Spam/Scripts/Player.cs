@@ -13,6 +13,8 @@ public class Player : MonoBehaviour {
 
 	public float maxSpeed;
 	public Collider2D _damageBox;
+	public float invincibilityTime = 2.0f;
+	public bool invincible;
 
 	private Animator _animator;
 	private int _grounded = 0;
@@ -30,6 +32,7 @@ public class Player : MonoBehaviour {
 		_body = GetComponent<Rigidbody2D> ();
 		_groundCheckStart = transform.Find("groundCheckStart");
 		_groundCheck = transform.Find("groundCheck");
+		invincible = false;
 	}
 
 	// Update is called once per frame
@@ -77,9 +80,18 @@ public class Player : MonoBehaviour {
 
 	public void OnDamaged(int damage)
 	{
-		life -= damage;
-		if (life < 1)
-			Death ();
+		if (!invincible)
+		{
+			life -= damage;
+			if (life < 1)
+			{
+				Death();
+			}
+			else
+			{
+				StartCoroutine(coroutine_Invincibility());
+			}
+		}
 	}
 
 	void Flip()
@@ -93,5 +105,32 @@ public class Player : MonoBehaviour {
 	public void Death()
 	{
 		Application.LoadLevel ("MainMenu");
+	}
+
+	private IEnumerator coroutine_Invincibility()
+	{
+		invincible = true;
+
+		float time = 0;
+		SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+
+		while (time < invincibilityTime)
+		{
+			Color c = renderer.color;
+			c.a = 1.0f - c.a;
+			renderer.color = c;
+			time += Time.deltaTime;
+			yield return new WaitForEndOfFrame();
+			time += Time.deltaTime;
+			yield return new WaitForEndOfFrame();
+			time += Time.deltaTime;
+			yield return new WaitForEndOfFrame();
+			time += Time.deltaTime;
+			yield return new WaitForEndOfFrame();
+		}
+		Color _c = renderer.color;
+		_c.a = 1.0f;
+		renderer.color = _c;
+		invincible = false;
 	}
 }

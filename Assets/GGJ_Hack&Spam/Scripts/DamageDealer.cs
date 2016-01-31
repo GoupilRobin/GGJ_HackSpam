@@ -36,13 +36,16 @@ public class DamageDealer : MonoBehaviour {
 		}
 		else if (other && coll.gameObject.GetComponent<Player>())
 		{
-			coll.gameObject.SendMessage("OnDamaged", damage);
-			if (coll.gameObject.GetComponent<Rigidbody2D>() != null)
+			if (!coll.gameObject.GetComponent<Player>().invincible)
 			{
-				if (_monster.transform.position.x < coll.transform.position.x)
-					coll.gameObject.GetComponent<Rigidbody2D>().velocity =  new Vector2(force, force / 2);
-				else
-					coll.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-force, force / 2);
+				coll.gameObject.SendMessage("OnDamaged", damage);
+				if (coll.gameObject.GetComponent<Rigidbody2D>() != null)
+				{
+					if (_monster.transform.position.x < coll.transform.position.x)
+						coll.gameObject.GetComponent<Rigidbody2D>().velocity =  new Vector2(force, force / 2);
+					else
+						coll.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-force, force / 2);
+				}
 			}
 		}
 	}
