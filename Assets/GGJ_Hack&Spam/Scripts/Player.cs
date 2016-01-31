@@ -3,9 +3,9 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
-	public float speedForce = 365f;
 	public float jumpForce = 250f;
-	public int life  = 100;
+	public int life = 100;
+	public int score { get; private set; }
 	public string name = "SOSSIFLARD";
 
 	public float maxSpeed;
@@ -16,6 +16,7 @@ public class Player : MonoBehaviour {
 	private bool _jump;
 	private Rigidbody2D _body;
 	private bool facingRight;
+	private Transform _groundCheckStart;
 	private Transform _groundCheck;
 	private Time	  _timer;
 
@@ -24,14 +25,15 @@ public class Player : MonoBehaviour {
 	{
 		_animator = GetComponent<Animator> ();
 		_body = GetComponent<Rigidbody2D> ();
-		_groundCheck = transform.Find ("groundCheck");
+		_groundCheckStart = transform.Find("groundCheckStart");
+		_groundCheck = transform.Find("groundCheck");
 	}
 
 	// Update is called once per frame
 	void Update () 
 	{
-		if (Physics2D.Linecast (transform.position, _groundCheck.position, 1 << LayerMask.NameToLayer("Ground")))
-			_grounded = 2;
+		if (Physics2D.Linecast (_groundCheckStart.position, _groundCheck.position, 1 << LayerMask.NameToLayer("Ground")))
+			_grounded = 1;
 		if (Input.GetKeyDown (KeyCode.Space) && _grounded > 0)
 			_jump = true;
 		if (Input.GetKeyDown (KeyCode.Return)) {
@@ -47,12 +49,10 @@ public class Player : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-		float h = Input.GetAxis ("Horizontal");
+		float h = Input.GetAxis("Horizontal");
+		
+		_body.velocity = new Vector2(h * maxSpeed, _body.velocity.y);
 
-		if (h * _body.velocity.x > maxSpeed)
-			_body.velocity = new Vector2 (Mathf.Sign(_body.velocity.x) * maxSpeed, _body.velocity.y);
-		else
-			_body.AddForce(Vector2.right * speedForce * h);
 		if (h < 0 && !facingRight)
 			Flip ();
 		else if (h > 0 && facingRight)
@@ -60,16 +60,13 @@ public class Player : MonoBehaviour {
 		if (_jump) 
 		{
 			if(_grounded == 1)
-				_body.velocity = new Vector2(_body.velocity.x , 0f);
-			if (h * _body.velocity.x > maxSpeed)
 			{
-				float x = _body.velocity.x;
-				_body.AddForce(new Vector2(0f, jumpForce));
-				_body.velocity = new Vector2 (Mathf.Sign(x) * maxSpeed, _body.velocity.y);
+				_body.velocity = new Vector2(_body.velocity.x , 0f);
 			}
-			else
-				_body.AddForce(new Vector2(speedForce * h, jumpForce));
-			_grounded--;
+			float x = _body.velocity.x;
+			_body.AddForce(new Vector2(0f, jumpForce));
+			_body.velocity = new Vector2 (Mathf.Sign(x) * maxSpeed, _body.velocity.y);
+			_grounded = 0;
 			_jump = false;
 		}
 		_animator.SetFloat ("walkSpeed", _body.velocity.x);

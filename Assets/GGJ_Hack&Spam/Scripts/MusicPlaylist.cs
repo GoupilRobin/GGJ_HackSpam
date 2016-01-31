@@ -8,13 +8,13 @@ public class MusicPlaylist : MonoBehaviour
 	public List<AudioClip> AudioClips = new List<AudioClip>();
 	public bool LoopOnLast = false;
 
-	private string m_CurrentClip = "";
 	private AudioSource m_AudioSource = null;
 
 	public void Start()
 	{
 		m_AudioSource = GetComponent<AudioSource>();
 		StartCoroutine(coroutine_ExecutePlaylist());
+		Object.DontDestroyOnLoad(gameObject);
 	}
 
 	private IEnumerator coroutine_ExecutePlaylist()

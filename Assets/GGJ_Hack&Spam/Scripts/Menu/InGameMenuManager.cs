@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MainMenuManager : MenuManager
+public class InGameMenuManager : MenuManager
 {
 	private GameObject m_MusicPlaylistPrefab;
 	private MusicPlaylist m_MusicPlaylist;
@@ -10,7 +10,7 @@ public class MainMenuManager : MenuManager
 	{
 		base.Start();
 		
-		m_MusicPlaylistPrefab = Resources.Load("Prefabs/MenuMusicPlayer", typeof(GameObject)) as GameObject;
+		m_MusicPlaylistPrefab = Resources.Load("Prefabs/InGameMusicPlayer", typeof(GameObject)) as GameObject;
 		m_MusicPlaylist = FindObjectOfType<MusicPlaylist>();
 		if (m_MusicPlaylist == null)
 		{

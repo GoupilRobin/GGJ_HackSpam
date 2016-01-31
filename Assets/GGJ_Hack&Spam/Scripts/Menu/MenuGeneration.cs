@@ -4,9 +4,15 @@ using System.Collections;
 
 public class MenuGeneration : Menu
 {
+	public MenuSelectMaps MenuSelectMaps = null;
+
 	public void Start()
 	{
 		StartCoroutine(coroutine_DelayLevelLoaded());
+	}
+
+	public void OnDestroy()
+	{
 	}
 
 	private IEnumerator coroutine_DelayLevelLoaded()
@@ -16,16 +22,16 @@ public class MenuGeneration : Menu
 		OnLevelLoaded();
 	}
 
-	public void DelayLoadSelectedLevel(MenuSelectMaps menuSelectMaps)
+	public void DelayLoadSelectedLevel()
 	{
-		StartCoroutine(coroutine_DelayLoadSelectedLevel(menuSelectMaps));
+		StartCoroutine(coroutine_DelayLoadSelectedLevel());
 	}
 
-	private IEnumerator coroutine_DelayLoadSelectedLevel(MenuSelectMaps menuSelectMaps)
+	private IEnumerator coroutine_DelayLoadSelectedLevel()
 	{
-		yield return new WaitForSeconds(2.0f);
+		yield return new WaitForSeconds(1.0f);
 
-		Application.LoadLevel(menuSelectMaps.SelectedMapName);
+		Application.LoadLevel(MenuSelectMaps.SelectedMapName);
 	}
 
 	public UnityEvent LevelLoadedEvent;
