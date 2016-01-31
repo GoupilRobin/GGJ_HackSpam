@@ -1,14 +1,14 @@
 fileFormatVersion: 2
-guid: e214ff95347baee45961ccfb7731178a
-timeCreated: 1454165855
+guid: c9d254e963389df4f871e4bb305ee5b0
+timeCreated: 1454245916
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: character_walking_0
-    21300002: character_walking_1
-    21300004: character_walking_2
-    21300006: character_walking_3
-    21300008: character_walking_4
+    21300000: big_sword_chara_0
+    21300002: big_sword_chara_1
+    21300004: big_sword_chara_2
+    21300006: big_sword_chara_3
+    21300008: big_sword_chara_4
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -34,7 +34,7 @@ TextureImporter:
   textureFormat: -1
   maxTextureSize: 2048
   textureSettings:
-    filterMode: 0
+    filterMode: -1
     aniso: 16
     mipBias: -1
     wrapMode: 1
@@ -54,52 +54,52 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: character_walking_0
+    - name: big_sword_chara_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 2
-        width: 26
+        x: 0
+        y: 0
+        width: 50
         height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: character_walking_1
+    - name: big_sword_chara_1
       rect:
         serializedVersion: 2
-        x: 44
-        y: 2
-        width: 28
+        x: 50
+        y: 0
+        width: 47
         height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: character_walking_2
+    - name: big_sword_chara_2
       rect:
         serializedVersion: 2
-        x: 85
-        y: 2
-        width: 29
+        x: 102
+        y: 0
+        width: 41
         height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: character_walking_3
+    - name: big_sword_chara_3
       rect:
         serializedVersion: 2
-        x: 129
-        y: 2
-        width: 27
+        x: 146
+        y: 0
+        width: 47
         height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: character_walking_4
+    - name: big_sword_chara_4
       rect:
         serializedVersion: 2
-        x: 172
-        y: 2
-        width: 28
+        x: 195
+        y: 0
+        width: 47
         height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
