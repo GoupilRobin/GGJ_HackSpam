@@ -3,6 +3,9 @@ using System.Collections;
 
 public abstract class IA : MonoBehaviour 
 {
+	public	AudioClip onDamaged;
+	public	AudioClip onDeath;
+
 	protected Player _player;
 	protected Rigidbody2D _body;
 	public float distance;
@@ -10,11 +13,12 @@ public abstract class IA : MonoBehaviour
 	public float invincibilityTime = 1.0f;
 	public bool invincible;
 	protected bool reversed = false;
+	protected	AudioSource _audio;
 	private TextMesh _name;
-
 
 	public void Awake()
 	{
+		_audio = GetComponent<AudioSource> ();
 		_player = FindObjectOfType<Player> ();
 		_body = GetComponent <Rigidbody2D>();
 		if(_name = GetComponentInChildren<TextMesh>())
@@ -27,7 +31,9 @@ public abstract class IA : MonoBehaviour
 		if (!invincible)
 		{
 			hitpoint -= damage;
+			_audio.PlayOneShot (onDamaged);
 			if (hitpoint <= 0) {
+				AudioSource.PlayClipAtPoint(onDeath, this.transform.position);
 				Player.MobKilled += 1;
 				Destroy (this.gameObject);
 			}
@@ -50,6 +56,7 @@ public abstract class IA : MonoBehaviour
 	{
 		_name.text = name;
 	}
+<<<<<<< HEAD
 	
 	private IEnumerator coroutine_Invincibility()
 	{
@@ -76,5 +83,14 @@ public abstract class IA : MonoBehaviour
 		_c.a = 1.0f;
 		renderer.color = _c;
 		invincible = false;
+=======
+
+	public void OnCollisionEnter2D (Collision2D collision) {
+		
+		if (collision.gameObject.tag == "Monster") {
+			Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>());
+		}
+		
+>>>>>>> 46ac16ee3a8558ea311ab6531347cf8c265a4fde
 	}
 }

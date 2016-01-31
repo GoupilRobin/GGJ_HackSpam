@@ -16,8 +16,7 @@ public class IAZombie : IAWalking {
 			Flip ();
 		else if (currentPos < 0 && reversed)
 			Flip ();
-		if (_player.transform.position.y - transform.position.y < 1 && 
-		    _player.transform.position.y - transform.position.y > -1) 
+		if (_player.transform.position.y - transform.position.y < 1 && _player.transform.position.y - transform.position.y > -1) 
 		{
 			if (_player.transform.position.x > startPos.x && _player.transform.position.x < startPos.x + max)
 			{
