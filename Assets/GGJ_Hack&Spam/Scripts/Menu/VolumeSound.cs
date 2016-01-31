@@ -22,6 +22,6 @@ public class VolumeSound : MonoBehaviour
 	public void SetValue()
 	{
 		_text.text = _slider.value.ToString();
-		AudioListener.volume = _slider.value;
+		AudioListener.volume = _slider.value / 100.0f;
 	}
 }
