@@ -7,15 +7,23 @@ public class MenuInGame : Menu
 {
 	public Player Player = null;
 	public Text TextHP = null;
+	public Text TextMaps = null;
 	public Text TextScore = null;
 	
 	private string m_HPFormat;
+	private string m_MapsFormat;
 	private string m_ScoreFormat;
-
+	
 	public UnityEvent VictoryEvent;
 	internal void OnVictory()
 	{
 		if (VictoryEvent != null) VictoryEvent.Invoke();
+	}
+	
+	public UnityEvent GameFinishedEvent;
+	internal void OnGameFinished()
+	{
+		if (GameFinishedEvent != null) GameFinishedEvent.Invoke();
 	}
 
 	protected void Start()
@@ -27,6 +35,10 @@ public class MenuInGame : Menu
 		if (TextHP != null)
 		{
 			m_HPFormat = TextHP.text;
+		}
+		if (TextMaps != null)
+		{
+			m_MapsFormat = TextMaps.text;
 		}
 		if (TextScore != null)
 		{
@@ -44,6 +56,10 @@ public class MenuInGame : Menu
 		if (TextHP != null)
 		{
 			TextHP.text = string.Format(m_HPFormat, Player.life);
+		}
+		if (TextMaps != null)
+		{
+			TextMaps.text = string.Format(m_MapsFormat, Player.MapsDone);
 		}
 		if (TextScore != null)
 		{

@@ -19,14 +19,15 @@ public class SpamMenuManager : MenuManager
 
 	protected new void Start()
 	{
-		/*if (Player.MapsDone > 10 || true)
+		ShowMenu(_currentMenu);
+		if (Player.MapsDone > 9)
 		{
-			ShowMenu(BossMenu);
+			SetupSpamType(SpamType.Boss);
 		}
 		else
-		{*/
-			ShowMenu(_currentMenu);
-		//}
+		{
+			SetupSpamType(SpamType.Maps);
+		}
 		MapsMenu.SelectionTimerOverEvent.AddListener(OnMapsSelectionFinished);
 		MobsMenu.SelectionTimerOverEvent.AddListener(OnMobsSelectionFinished);
 		BossMenu.SelectionTimerOverEvent.AddListener(OnBossSelectionFinished);
