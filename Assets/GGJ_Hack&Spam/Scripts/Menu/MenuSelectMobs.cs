@@ -45,6 +45,8 @@ public class MenuSelectMobs : Menu
 		else if (!m_TimerTriggered && m_CurrentSelectionTime <= 0)
 		{
 			m_TimerTriggered = true;
+			TwitchIRC twitchIrc = FindObjectOfType<TwitchIRC>();
+			twitchIrc.MessageRecievedEvent -= HandleMessageRecievedEvent;
 			OnSelectionTimerOver();
 		}
 	}
@@ -53,6 +55,14 @@ public class MenuSelectMobs : Menu
 	{
 		m_CurrentSelectionTime = SelectionTimer;
 		m_TimerTriggered = false;
+		TwitchIRC twitchIrc = FindObjectOfType<TwitchIRC>();
+		twitchIrc.MessageRecievedEvent += HandleMessageRecievedEvent;
+	}
+
+	void HandleMessageRecievedEvent(MessageIRC message)
+	{
+		/*WordComparator wc = new WordComparator();
+		wc.Comparator(*/
 	}
 	
 	public UnityEvent SelectionTimerOverEvent;

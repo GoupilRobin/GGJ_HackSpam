@@ -2,9 +2,16 @@
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MenuSelectMaps : Menu
 {
+	private class ExposedMap
+	{
+		public string Name;
+		public GameObject GameObject;
+	}
+
 	public int SelectionTimer = 6000;
 	public Text TimerText;
 	public GameObject Map1 = null;
@@ -15,6 +22,7 @@ public class MenuSelectMaps : Menu
 	private int m_CurrentSelectionTime = 0;
 	private string m_TimerTextFormat;
 	private bool m_TimerTriggered;
+	private List<ExposedMap> m_ShownMap = new List<ExposedMap>();
 
 	protected void Start()
 	{
@@ -43,11 +51,11 @@ public class MenuSelectMaps : Menu
 			m_TimerTriggered = true;
 			if (string.IsNullOrEmpty(SelectedMapName))
 			{
-				int index = Random.Range(0, 3);
-				if (index == 0) SelectedMapName = Map1.GetComponentInChildren<Text>().text;
-				if (index == 1) SelectedMapName = Map2.GetComponentInChildren<Text>().text;
-				if (index == 2) SelectedMapName = Map3.GetComponentInChildren<Text>().text;
+				int index = Random.Range(0, m_ShownMap.Count);
+				SelectedMapName = m_ShownMap[index].Name;
 			}
+			TwitchIRC twitchIrc = FindObjectOfType<TwitchIRC>();
+			twitchIrc.MessageRecievedEvent -= HandleMessageRecievedEvent;
 			OnSelectionTimerOver();
 		}
 	}
@@ -58,9 +66,26 @@ public class MenuSelectMaps : Menu
 		m_TimerTriggered = false;
 		SelectedMapName = "";
 
+		m_ShownMap.Clear();
 		PopulateMap(Map1);
 		PopulateMap(Map2);
 		PopulateMap(Map3);
+
+		TwitchIRC twitchIrc = FindObjectOfType<TwitchIRC>();
+		twitchIrc.MessageRecievedEvent += HandleMessageRecievedEvent;
+	}
+
+	void HandleMessageRecievedEvent(MessageIRC message)
+	{
+		for (int i = 0; i < m_ShownMap.Count; i++)
+		{
+			string param = message.Parameters[1];
+			if (param.Substring(0, param.Length - 2) == m_ShownMap[i].Name)
+			{
+				SelectedMapName = m_ShownMap[i].Name;
+				break;
+			}
+		}
 	}
 
 	private void PopulateMap(GameObject mapObject)
@@ -69,6 +94,7 @@ public class MenuSelectMaps : Menu
 		MainMenuManager.LevelPackage level = MainMenuManager.Levels[levelIndex];
 		mapObject.GetComponentInChildren<Image>().sprite = level.Thumbnail;
 		mapObject.GetComponentInChildren<Text>().text = level.Name;
+		m_ShownMap.Add(new ExposedMap() { Name=level.Name, GameObject=mapObject });
 	}
 
 	public UnityEvent SelectionTimerOverEvent;
