@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class IABoss : IA {
 	
 	private Transform _spawner;
+	public float rotationSpeed = 20;
+	public float shootDelay = 0.75f;
 	public bool moreFireBalls = false;
 	public bool doubleSpeed = false;
 	public bool doubleHP = false;
@@ -21,9 +23,9 @@ public class IABoss : IA {
 	void FixedUpdate()
 	{
 		if (!doubleSpeed)
-			_spawner.Rotate (new Vector3 (0, 0, 10 * Time.deltaTime));
+			_spawner.Rotate (new Vector3 (0, 0, rotationSpeed * Time.deltaTime));
 		else
-			_spawner.Rotate (new Vector3 (0, 0, 20 * Time.deltaTime));
+			_spawner.Rotate (new Vector3 (0, 0, rotationSpeed * 2 * Time.deltaTime));
 	}
 
 	void Init()
@@ -44,10 +46,10 @@ public class IABoss : IA {
 		if (spawners)
 			Spawn ();
 		if (doubleSpeed)
-			InvokeRepeating ("Shoot", 2, 0.5f);
+			InvokeRepeating ("Shoot", 2, shootDelay * 0.5f);
 		else
-			InvokeRepeating ("Shoot", 2, 1);
-	}
+			InvokeRepeating ("Shoot", 2, shootDelay);
+}
 
 	void Spawn()
 	{
@@ -61,6 +63,18 @@ public class IABoss : IA {
 			GameObject g = Resources.Load ("Prefabs/FireBall", typeof(GameObject)) as GameObject;
 			GameObject s = Instantiate(g, spawn.position, spawn.rotation) as GameObject;
 			s.GetComponent<IAFireBall>().BossShoot ();
+		}
+	}
+	
+	public new void OnDamaged(int damage)
+	{
+		base.OnDamaged(damage);
+
+		if (hitpoint <= 0)
+		{
+			hitpoint = 0;
+			MenuInGame mig = FindObjectOfType<MenuInGame>();
+			mig.OnGameFinished();
 		}
 	}
 }

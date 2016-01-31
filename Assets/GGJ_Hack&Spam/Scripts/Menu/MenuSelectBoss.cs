@@ -15,7 +15,7 @@ public class MenuSelectBoss : MenuSelect
 
 	public GameObject BossUI = null;
 
-	private MobKey m_CurrentKey;
+	private MobKey m_CurrentKey = new MobKey();
 	private MenuManager.MobPackage ExposedBoss = null;
 	private Queue<int> m_PendingUIUpdates = new Queue<int>();
 	private Queue<int> m_PendingReplaces = new Queue<int>();
@@ -26,7 +26,7 @@ public class MenuSelectBoss : MenuSelect
 		base.StartTimer();
 
 		m_UpgradeLevel = 0;
-		MenuManager.MobPackage bossPrefab = MenuManager.Bosses[Random.Range(0, MenuManager.Bosses.Count - 1)];
+		MenuManager.MobPackage bossPrefab = MenuManager.Bosses[Random.Range(0, MenuManager.Bosses.Count)];
 		ExposedBoss = bossPrefab;
 		GenerateKey();
 		UpdateUIElement();
@@ -66,6 +66,10 @@ public class MenuSelectBoss : MenuSelect
 			{
 				m_PendingReplaces.Enqueue(0);
 				m_UpgradeLevel++;
+				if (m_UpgradeLevel == 3)
+				{
+					m_CurrentSelectionTime = 0;
+				}
 			}
 		}
 	}
@@ -75,8 +79,19 @@ public class MenuSelectBoss : MenuSelect
 		base.HandleSelectionTimerOver();
 		
 		List<IA> aiList = new List<IA>();
-		aiList.Add(ExposedBoss.Prefab.GetComponent<IA>());
+		IABoss bossAi = ExposedBoss.Prefab.GetComponent<IABoss>();
+		if (m_UpgradeLevel >= 0) bossAi.doubleHP = true;
+		if (m_UpgradeLevel >= 1) bossAi.moreFireBalls = true;
+		if (m_UpgradeLevel >= 2) bossAi.doubleSpeed = true;
+		if (m_UpgradeLevel >= 3)
+		{
+			int rndIdx = Random.Range(0, MenuManager.Mobs.Count);
+			aiList.Add(MenuManager.Mobs[rndIdx].Prefab.GetComponent<IABoss>());
+		}
+		aiList.Add(bossAi);
 		MasterSpawner.monsters = aiList;
+		MenuSelectMaps msm = FindObjectOfType<MenuSelectMaps>();
+		msm.SelectedMapName = "BossRoom";
 	}
 
 	private void GenerateKey()
@@ -93,8 +108,5 @@ public class MenuSelectBoss : MenuSelect
 		BossUI.transform.FindChild("Panel/Text_key").GetComponent<Text>().text = m_CurrentKey.ExposedKey;
 		BossUI.transform.FindChild("Panel/Image").GetComponent<Image>().sprite = ExposedBoss.Thumbnail;
 		BossUI.transform.FindChild("Slider").GetComponent<Slider>().value = progress;
-		ColorBlock cblock = BossUI.transform.FindChild("Slider").GetComponent<Slider>().colors;
-		cblock.normalColor = Color.Lerp(Color.green, Color.red, progress);
-		BossUI.transform.FindChild("Slider").GetComponent<Slider>().colors = cblock;
 	}
 }

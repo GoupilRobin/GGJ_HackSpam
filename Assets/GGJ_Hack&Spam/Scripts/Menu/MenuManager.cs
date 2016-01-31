@@ -42,7 +42,7 @@ public class MenuManager : MonoBehaviour
 
 	public static List<MobPackage> Bosses = new List<MobPackage>() {
 		new MobPackage() { Name = "Demon", KeyLength = 10, Prefab = Resources.Load("Prefabs/Monsters/BossDemon", typeof(GameObject)) as GameObject, Thumbnail = Resources.Load("Sprites/demon_boss1", typeof(Sprite)) as Sprite },
-		new MobPackage() { Name = "Cthulhu", KeyLength = 10, Prefab = Resources.Load("Prefabs/Monsters/BossChtulhu", typeof(GameObject)) as GameObject, Thumbnail = Resources.Load("Sprites/CthulhuBoss", typeof(Sprite)) as Sprite },
+		new MobPackage() { Name = "Cthulhu", KeyLength = 10, Prefab = Resources.Load("Prefabs/Monsters/BossCthulhu", typeof(GameObject)) as GameObject, Thumbnail = Resources.Load("Sprites/CthulhuBoss", typeof(Sprite)) as Sprite },
 	};
 
 	public Menu _currentMenu;
@@ -74,6 +74,11 @@ public class MenuManager : MonoBehaviour
 	public void LaunchMainMenu()
 	{
 		Application.LoadLevel("MainMenu");
+	}
+	
+	public void LaunchEndGameMenu()
+	{
+		Application.LoadLevel("EndGame");
 	}
 	
 	public void Quit()
