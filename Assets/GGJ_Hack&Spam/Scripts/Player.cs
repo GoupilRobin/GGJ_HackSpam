@@ -6,6 +6,11 @@ public class Player : MonoBehaviour {
 	public static int MapsDone = 0;
 	public static int MobKilled = 0;
 
+	public AudioClip	onJump;
+	public AudioClip	onLand;
+	public AudioClip	onHit;
+	public AudioClip	onDamaged;
+	public AudioClip	onDeath;
 	public float jumpForce = 250f;
 	public int life = 100;
 	public int score { get; private set; }
@@ -13,9 +18,13 @@ public class Player : MonoBehaviour {
 
 	public float maxSpeed;
 	public Collider2D _damageBox;
+	public float invincibilityTime = 2.0f;
+	public bool invincible;
 
+	private AudioSource _audio;
 	private Animator _animator;
 	private int _grounded = 0;
+	private bool _fall = false;
 	private bool _jump;
 	private Rigidbody2D _body;
 	private bool facingRight;
@@ -26,21 +35,33 @@ public class Player : MonoBehaviour {
 	// Use this for initialization
 	void Awake () 
 	{
+		_audio = GetComponent<AudioSource> ();
 		_animator = GetComponent<Animator> ();
 		_body = GetComponent<Rigidbody2D> ();
 		_groundCheckStart = transform.Find("groundCheckStart");
 		_groundCheck = transform.Find("groundCheck");
+		invincible = false;
 	}
 
 	// Update is called once per frame
 	void Update () 
 	{
-		if (Physics2D.Linecast(_groundCheckStart.position, _groundCheck.position, 1 << LayerMask.NameToLayer("Ground")))
+		if (Physics2D.Linecast (_groundCheckStart.position, _groundCheck.position, 1 << LayerMask.NameToLayer ("Ground"))) {
 			_grounded = 1;
-		if (Input.GetKeyDown (KeyCode.Space) && _grounded > 0)
+			if (_fall)
+			{
+				_fall = false;
+				//_audio.PlayOneShot(onLand);
+			}
+		}
+		if (Input.GetKeyDown (KeyCode.Space) && _grounded > 0) {
 			_jump = true;
+			_fall = true;
+			_audio.PlayOneShot(onJump);
+		}
 		if (Input.GetKeyDown (KeyCode.Return)) {
 			_damageBox.enabled = true;
+			_audio.PlayOneShot(onHit);
 			_animator.Play("Attack");
 			Invoke("DisableSword", 1);
 		}
@@ -77,9 +98,19 @@ public class Player : MonoBehaviour {
 
 	public void OnDamaged(int damage)
 	{
-		life -= damage;
-		if (life < 1)
-			Death ();
+		if (!invincible)
+		{
+			_audio.PlayOneShot (onDamaged);
+			life -= damage;
+			if (life < 1)
+			{
+				Death();
+			}
+			else
+			{
+				StartCoroutine(coroutine_Invincibility());
+			}
+		}
 	}
 
 	void Flip()
@@ -92,6 +123,34 @@ public class Player : MonoBehaviour {
 
 	public void Death()
 	{
+		AudioSource.PlayClipAtPoint (onDeath, this.transform.position);
 		Application.LoadLevel ("MainMenu");
+	}
+
+	private IEnumerator coroutine_Invincibility()
+	{
+		invincible = true;
+
+		float time = 0;
+		SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+
+		while (time < invincibilityTime)
+		{
+			Color c = renderer.color;
+			c.a = 1.0f - c.a;
+			renderer.color = c;
+			time += Time.deltaTime;
+			yield return new WaitForEndOfFrame();
+			time += Time.deltaTime;
+			yield return new WaitForEndOfFrame();
+			time += Time.deltaTime;
+			yield return new WaitForEndOfFrame();
+			time += Time.deltaTime;
+			yield return new WaitForEndOfFrame();
+		}
+		Color _c = renderer.color;
+		_c.a = 1.0f;
+		renderer.color = _c;
+		invincible = false;
 	}
 }
