@@ -4,7 +4,8 @@ using System.Collections;
 public class Player : MonoBehaviour {
 
 	public float jumpForce = 250f;
-	public int life  = 100;
+	public int life = 100;
+	public int score { get; private set; }
 	public string name = "SOSSIFLARD";
 
 	public float maxSpeed;
