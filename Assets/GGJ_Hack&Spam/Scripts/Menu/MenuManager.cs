@@ -18,14 +18,14 @@ public class MenuManager : MonoBehaviour
 	}
 	
 	public static List<LevelPackage> Levels = new List<LevelPackage>() {
-		new LevelPackage() { Name = "Level1", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
-		new LevelPackage() { Name = "Level2", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
-		new LevelPackage() { Name = "Level3", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
-		new LevelPackage() { Name = "Level4", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
-		new LevelPackage() { Name = "Level5", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
-		new LevelPackage() { Name = "Level6", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
-		new LevelPackage() { Name = "Level7", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
-		new LevelPackage() { Name = "Level8", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
+		new LevelPackage() { Name = "Level1", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/LevelThumbnails/Level1", typeof(Sprite)) as Sprite },
+		new LevelPackage() { Name = "Level2", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/LevelThumbnails/Level2", typeof(Sprite)) as Sprite },
+		new LevelPackage() { Name = "Level3", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/LevelThumbnails/Level3", typeof(Sprite)) as Sprite },
+		new LevelPackage() { Name = "Level4", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/LevelThumbnails/Level4", typeof(Sprite)) as Sprite },
+		new LevelPackage() { Name = "Level5", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/LevelThumbnails/Level5", typeof(Sprite)) as Sprite },
+		new LevelPackage() { Name = "Level6", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/LevelThumbnails/Level6", typeof(Sprite)) as Sprite },
+		new LevelPackage() { Name = "Level7", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/LevelThumbnails/Level7", typeof(Sprite)) as Sprite },
+		new LevelPackage() { Name = "Level8", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/LevelThumbnails/Level8", typeof(Sprite)) as Sprite },
 	};
 	
 	public static List<MobPackage> Mobs = new List<MobPackage>() {
