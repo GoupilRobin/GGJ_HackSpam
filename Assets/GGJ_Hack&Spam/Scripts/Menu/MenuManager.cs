@@ -18,7 +18,14 @@ public class MenuManager : MonoBehaviour
 	}
 	
 	public static List<LevelPackage> Levels = new List<LevelPackage>() {
-		new LevelPackage() { Name = "DevScene", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
+		new LevelPackage() { Name = "Level1", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
+		new LevelPackage() { Name = "Level2", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
+		new LevelPackage() { Name = "Level3", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
+		new LevelPackage() { Name = "Level4", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
+		new LevelPackage() { Name = "Level5", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
+		new LevelPackage() { Name = "Level6", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
+		new LevelPackage() { Name = "Level7", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
+		new LevelPackage() { Name = "Level8", Weight = 1.0f, Thumbnail = Resources.Load("Sprites/ggj_pixelated", typeof(Sprite)) as Sprite },
 	};
 	
 	public static List<MobPackage> Mobs = new List<MobPackage>() {
