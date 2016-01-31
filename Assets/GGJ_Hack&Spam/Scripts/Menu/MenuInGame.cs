@@ -50,11 +50,6 @@ public class MenuInGame : Menu
 
 	protected void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.O))
-		{
-			OnVictory();
-		}
-
 		if (TextHP != null)
 		{
 			TextHP.text = string.Format(m_HPFormat, Player.life);
