@@ -4,8 +4,14 @@ using System.Collections;
 public class LevelExit : MonoBehaviour
 {
 	private const int m_FramesToSkip = 10;
-	private int m_CurrentFrame = 0;
-	private bool m_Done = false;
+	private int m_CurrentFrame;
+	private bool m_Done;
+
+	protected void Start()
+	{
+		m_CurrentFrame = 0;
+		m_Done = false;
+	}
 
 	protected void OnTriggerStay2D(Collider2D col)
 	{
@@ -15,16 +21,18 @@ public class LevelExit : MonoBehaviour
 			{
 				IA[] ais = FindObjectsOfType<IA>();
 				foreach(IA ai in ais){
-					if (!ai.gameObject.isStatic)
-						return;
-				}
-					MenuInGame inGameMenu = FindObjectOfType<MenuInGame>();
-					if (inGameMenu != null)
+					if (ai.gameObject.name.Contains("Spikes") && ai.gameObject.name.Contains("FireBall"))
 					{
-						inGameMenu.OnVictory();
-						m_Done = true;
-						Player.MapsDone++;
+						return;
 					}
+				}
+				MenuInGame inGameMenu = FindObjectOfType<MenuInGame>();
+				if (inGameMenu != null)
+				{
+					inGameMenu.OnVictory();
+					m_Done = true;
+					Player.MapsDone++;
+				}
 			}
 			else
 			{
