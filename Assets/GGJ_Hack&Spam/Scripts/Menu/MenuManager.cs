@@ -40,6 +40,11 @@ public class MenuManager : MonoBehaviour
 		new MobPackage() { Name = "ZombieMale", KeyLength = 4, Prefab = Resources.Load("Prefabs/Monsters/ZombieMale", typeof(GameObject)) as GameObject, Thumbnail = Resources.Load("Sprites/Zombie1", typeof(Sprite)) as Sprite },
 	};
 
+	public static List<MobPackage> Bosses = new List<MobPackage>() {
+		new MobPackage() { Name = "Demon", KeyLength = 10, Prefab = Resources.Load("Prefabs/Monsters/BossDemon", typeof(GameObject)) as GameObject, Thumbnail = Resources.Load("Sprites/demon_boss1", typeof(Sprite)) as Sprite },
+		new MobPackage() { Name = "Cthulhu", KeyLength = 10, Prefab = Resources.Load("Prefabs/Monsters/BossChtulhu", typeof(GameObject)) as GameObject, Thumbnail = Resources.Load("Sprites/CthulhuBoss", typeof(Sprite)) as Sprite },
+	};
+
 	public Menu _currentMenu;
 	
 	// Use this for initialization
