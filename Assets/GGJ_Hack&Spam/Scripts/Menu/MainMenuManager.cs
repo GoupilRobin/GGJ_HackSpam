@@ -4,25 +4,26 @@ using System.Collections;
 public class MainMenuManager : MenuManager
 {
 	private GameObject m_MusicPlaylistPrefab;
-
+	private MusicPlaylist m_MusicPlaylist;
+	
 	protected new void Start()
 	{
 		base.Start();
-
+		
 		m_MusicPlaylistPrefab = Resources.Load("Prefabs/MenuMusicPlayer", typeof(GameObject)) as GameObject;
-		MusicPlaylist musicPlaylist = FindObjectOfType<MusicPlaylist>();
-		if (musicPlaylist == null)
+		m_MusicPlaylist = FindObjectOfType<MusicPlaylist>();
+		if (m_MusicPlaylist == null)
 		{
-			GameObject.Instantiate(m_MusicPlaylistPrefab);
+			GameObject obj = GameObject.Instantiate(m_MusicPlaylistPrefab);
+			m_MusicPlaylist = obj.GetComponent<MusicPlaylist>();
 		}
 	}
-
+	
 	protected void OnDestroy()
 	{
-		MusicPlaylist musicPlaylist = FindObjectOfType<MusicPlaylist>();
-		if (musicPlaylist != null)
+		if (m_MusicPlaylist != null)
 		{
-			DestroyImmediate(musicPlaylist.gameObject);
+			DestroyImmediate(m_MusicPlaylist.gameObject);
 		}
 	}
 }

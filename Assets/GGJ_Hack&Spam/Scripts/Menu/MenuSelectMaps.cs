@@ -41,6 +41,13 @@ public class MenuSelectMaps : Menu
 		else if (!m_TimerTriggered && m_CurrentSelectionTime <= 0)
 		{
 			m_TimerTriggered = true;
+			if (string.IsNullOrEmpty(SelectedMapName))
+			{
+				int index = Random.Range(0, 3);
+				if (index == 0) SelectedMapName = Map1.GetComponentInChildren<Text>().text;
+				if (index == 1) SelectedMapName = Map2.GetComponentInChildren<Text>().text;
+				if (index == 2) SelectedMapName = Map3.GetComponentInChildren<Text>().text;
+			}
 			OnSelectionTimerOver();
 		}
 	}
@@ -49,6 +56,7 @@ public class MenuSelectMaps : Menu
 	{
 		m_CurrentSelectionTime = SelectionTimer;
 		m_TimerTriggered = false;
+		SelectedMapName = "";
 
 		PopulateMap(Map1);
 		PopulateMap(Map2);

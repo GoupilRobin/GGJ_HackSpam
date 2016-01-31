@@ -24,16 +24,22 @@ public class Menu : MonoBehaviour {
 
 	public void CloseMenu()
 	{
+		if (_canvas.alpha != 0)
+		{
+			OnMenuClosed();
+		}
 		_canvas.alpha = 0;
 		_canvas.blocksRaycasts = _canvas.interactable = false;
-		OnMenuClosed();
 	}
 
 	public void OpenMenu()
 	{
+		if (_canvas.alpha != 1)
+		{
+			OnMenuOpened();
+		}
 		_canvas.alpha = 1;
 		_canvas.blocksRaycasts = _canvas.interactable = true;
-		OnMenuOpened();
 	}
 	
 	public UnityEvent MenuOpenedEvent;
