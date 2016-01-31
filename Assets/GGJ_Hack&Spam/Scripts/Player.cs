@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
+	public static int MapsDone = 0;
+
 	public float jumpForce = 250f;
 	public int life = 100;
 	public int score { get; private set; }
@@ -32,7 +34,7 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if (Physics2D.Linecast (_groundCheckStart.position, _groundCheck.position, 1 << LayerMask.NameToLayer("Ground")))
+		if (Physics2D.Linecast(_groundCheckStart.position, _groundCheck.position, 1 << LayerMask.NameToLayer("Ground")))
 			_grounded = 1;
 		if (Input.GetKeyDown (KeyCode.Space) && _grounded > 0)
 			_jump = true;

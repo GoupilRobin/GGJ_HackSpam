@@ -10,22 +10,33 @@ public class SpamMenuManager : MenuManager
 		None = 0,
 		Maps,
 		Mobs,
+		Boss,
 	}
 	
 	public MenuSelectMaps MapsMenu = null;
 	public MenuSelectMobs MobsMenu = null;
+	public MenuSelectBoss BossMenu = null;
 
 	protected new void Start()
 	{
-		ShowMenu(_currentMenu);
+		if (Player.MapsDone > 10 || true)
+		{
+			ShowMenu(BossMenu);
+		}
+		else
+		{
+			ShowMenu(_currentMenu);
+		}
 		MapsMenu.SelectionTimerOverEvent.AddListener(OnMapsSelectionFinished);
 		MobsMenu.SelectionTimerOverEvent.AddListener(OnMobsSelectionFinished);
+		BossMenu.SelectionTimerOverEvent.AddListener(OnBossSelectionFinished);
 	}
 
 	protected void OnDestroy()
 	{
 		MapsMenu.SelectionTimerOverEvent.RemoveListener(OnMapsSelectionFinished);
 		MobsMenu.SelectionTimerOverEvent.RemoveListener(OnMobsSelectionFinished);
+		BossMenu.SelectionTimerOverEvent.RemoveListener(OnBossSelectionFinished);
 	}
 
 	public void SetupSpamType(string typeStr)
@@ -42,6 +53,10 @@ public class SpamMenuManager : MenuManager
 		{
 			ShowMenu(MobsMenu);
 		}
+		else if (type == SpamType.Boss)
+		{
+			ShowMenu(BossMenu);
+		}
 		else
 		{
 			ShowMenu(null);
@@ -52,8 +67,13 @@ public class SpamMenuManager : MenuManager
 	{
 		SetupSpamType(SpamType.Mobs);
 	}
-
+	
 	private void OnMobsSelectionFinished()
+	{
+		OnSelectionFinished();
+	}
+	
+	private void OnBossSelectionFinished()
 	{
 		OnSelectionFinished();
 	}
