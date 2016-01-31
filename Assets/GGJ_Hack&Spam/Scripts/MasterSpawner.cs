@@ -4,28 +4,31 @@ using System.Collections.Generic;
 
 public class MasterSpawner : MonoBehaviour {
 
-	public	List<IA>	monsters = new List<IA>();
+	public	List<IA>	monsters = null;
 	private	MobSpawner[]	spawners;
 
 	// Use this for initialization
 	void Awake () {
 		spawners = this.GetComponentsInChildren<MobSpawner> ();
-		InvokeRepeating ("Spawn", 1, 1);
+		if (monsters.Count > 0 && monsters != null)
+			InvokeRepeating ("Spawn", 1, 1);
 	}
 	
 	void	Spawn(){
-		IA current = monsters [0];
-		monsters.RemoveAt (0);
-		int rand = Random.Range(0, spawners.GetLength(0));
-		int i = 0;
-		foreach (MobSpawner spawner in spawners){
-			if (i == rand){
-				spawner.SendMessage("InstantiateIA", current);
-				break;
+		if (monsters.Count > 0 && monsters != null) {
+			IA current = monsters [0];
+			monsters.RemoveAt (0);
+			int rand = Random.Range (0, spawners.GetLength (0));
+			int i = 0;
+			foreach (MobSpawner spawner in spawners) {
+				if (i == rand) {
+					spawner.SendMessage ("InstantiateIA", current);
+					break;
+				}
+				i++;
 			}
-			i++;
 		}
-		if (monsters.Count == 0)
+		if (monsters.Count <= 0 || monsters == null)
 			CancelInvoke ();
 	}
 
